@@ -9,8 +9,13 @@ const AudioPlayer = () => {
 
 	// handle play/pause logic
 	useEffect(() => {
-		if (isPlaying) audioRef.current?.play();
-		else audioRef.current?.pause();
+		if (isPlaying) {
+			audioRef.current?.play().catch((err) => {
+				console.error('Error playing audio:', err);
+			});
+		} else {
+			audioRef.current?.pause();
+		}
 	}, [isPlaying]);
 
 	// handle song ends
@@ -41,7 +46,11 @@ const AudioPlayer = () => {
 
 			prevSongRef.current = currentSong?.audioUrl;
 
-			if (isPlaying) audio.play();
+			if (isPlaying) {
+				audio.play().catch((err) => {
+					console.error('Error playing audio:', err);
+				});
+			}
 		}
 	}, [currentSong, isPlaying]);
 
